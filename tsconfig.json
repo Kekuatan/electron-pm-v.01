@@ -1,0 +1,31 @@
+//{
+//  "compilerOptions": {
+//    "module": "commonjs",
+//    "target": "es5",
+//    "sourceMap": true
+//  },
+//  "rootDir": "src",
+////  "include": [
+////      "file.ts"
+////  ],
+//  "include": [ "**/*.ts" ],
+//  "exclude": [
+//    "node_modules"
+//  ]
+//}
+
+{
+  "compilerOptions": {
+    "target": "es2018",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noEmitOnError": true,
+    "lib": ["es2017"],
+    "strict": true,
+    "esModuleInterop": false,
+    "outDir": "out-tsc",
+    "rootDir": "./"
+  }
+,
+  "include": ["./src/**/*.ts"]
+}

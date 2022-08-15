@@ -1,0 +1,199 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--    <link rel="stylesheet" href="style.css">-->
+    <title>Receipt example</title>
+</head>
+
+<body>
+<div class="ticket">
+    <p class="centered title">PARK AND RIDE KALIMALANG</p>
+    <p class="centered">
+        <span id="vehicle"> - </span> :
+        <span id="plat_no"> - </span> |
+        <span id="bypass_type"> - </span></p>
+    <table>
+        <thead>
+
+        </thead>
+        <tbody>
+        <tr>
+            <td class="description pt-2">Masuk</td>
+            <td class="price pt-2">:
+                <span id="start_at"> - </span>
+            </td>
+        </tr>
+        <tr>
+
+            <td class="description">Keluar</td>
+            <td class="price">:
+                <span id="end_at">  </span>
+            </td>
+        </tr>
+        <tr>
+
+            <td class="description"> Petugas</td>
+            <td class="price">:
+                <span id="staff_name"> - </span>
+            </td>
+        </tr>
+        <tr>
+
+            <td class="description">Lama</td>
+            <td class="price">:
+                <span id="duration"> - </span>
+            </td>
+        </tr>
+        <tr>
+
+            <td class="description">Parkir</td>
+            <td class="price">: Rp.
+                <span id="price"> 0 </span>
+            </td>
+        </tr>
+        <tr>
+
+            <td class="description pb-2">Denda</td>
+            <td class="price pb-2"> : Rp.
+                <span id="price_penalty"> 0 </span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="price total">TOTAL : Rp.
+                <span id="total_price"> 0 </span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <p class="centered">Thanks for your purchase!
+        <br>parzibyte.me/blog</p>
+    <br>
+    <br>
+    <p> - </p>
+</div>
+</body>
+</html>
+<script>
+
+    const htmlData = new URLSearchParams(location.search)
+    const contentData = JSON.parse(htmlData.get("queryKey"));
+    console.log(contentData)
+
+
+    data = Object.keys(contentData);
+    console.log(data)
+    if (data.length >= 1) {
+
+        data.forEach((d) => {
+            document.getElementById(d).innerHTML = contentData[d]
+        })
+    }
+
+
+</script>
+
+<style>
+    @font-face {
+        font-family: 'Orbitron';
+        font-style: normal;
+        font-display: swap;
+        font-weight: 400;
+        src: url('./files/orbitron-latin-400-normal.woff2') format('woff2'), url('./files/orbitron-all-400-normal.woff') format('woff');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+
+    * {
+        letter-spacing: 0px;
+        font-size: 12px;
+        font-family: 'Arial';
+    }
+
+    p {
+        padding: 0px;
+        margin: 5px 0px;
+    }
+
+    .title {
+        font-size: 16px;
+    }
+
+    td,
+    th,
+    tr,
+    table {
+        margin: auto;
+        /*border-top: 1px solid black;*/
+        /*border-collapse: collapse;*/
+    }
+
+    table, tbody {
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+    }
+
+    td.description,
+    th.description {
+        padding-right: 20px;
+    }
+
+    td.price,
+    th.price {
+        width: 100%;
+        word-break: break-all;
+    }
+
+    td.pb-2 {
+        padding-bottom: 20px;
+    }
+
+    td.pt-2 {
+        padding-top: 20px;
+    }
+
+    td.total,
+    th.total {
+
+        border-top: 1px solid black;
+        text-align: right;
+    }
+
+    .centered {
+        text-align: center;
+        align-content: center;
+    }
+
+    .ticket {
+        width: 95%;
+        margin: auto;
+        /*width: 155px;*/
+        /*max-width: 155px;*/
+    }
+
+    img {
+        max-width: inherit;
+        width: inherit;
+    }
+
+    @media print {
+        @page {
+            size: auto;   /* auto is the initial value */
+            /* this affects the margin in the printer settings */
+            margin: 0;
+        }
+
+        .ticket {
+            transform: scale(.9);
+            margin: auto
+            /*width: 155px;*/
+            /*max-width: 155px;*/
+        }
+
+        .hidden-print,
+        .hidden-print * {
+            display: none !important;
+        }
+    }
+
+</style>

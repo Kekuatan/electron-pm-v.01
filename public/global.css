@@ -1,0 +1,221 @@
+
+/* orbitron-latin-400-normal*/
+@font-face {
+	font-family: 'Orbitron';
+	font-style: normal;
+	font-display: swap;
+	font-weight: 400;
+	src: url('./files/orbitron-latin-400-normal.woff2') format('woff2'), url('./files/orbitron-all-400-normal.woff') format('woff');
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+	--color-cosmetic-blue: #17D4FE;
+	---font-cosmetic: Orbitron;
+
+	--color-label: #ffffff;
+}
+
+
+.bx--text-input{
+	text-align: center;
+	background-color: transparent;
+	border-color: var(--color-cosmetic-blue);
+	font-family: var(---font-cosmetic);
+	margin-bottom: 20px;
+}
+
+.bx--text-input--xl{
+	font-size: 60px;
+	height: 130px;
+	letter-spacing: 7px;
+}
+
+.bx--text-input:disabled {
+	letter-spacing: 3px;
+	-webkit-text-fill-color: #17D4FE;
+}
+.bx--label--disabled, .bx--form__helper-text--disabled {
+	color: var(--color-label);
+}
+
+.bx--label {
+	 font-size: .75rem;
+	 font-weight: 400;
+	 line-height: 1.33333;
+	 letter-spacing: .32px;
+	 display: inline-block;
+	 margin-bottom: 0.5rem;
+	 color: var(--color-label);
+	 font-weight: 400;
+	 line-height: 1rem;
+	 vertical-align: baseline;
+ }
+
+.label-xl{
+	font-size: 20px;
+	letter-spacing: 7px;
+	font-weight: 400;
+	text-transform: uppercase;
+	color:  var(--color-cosmetic-blue);
+	margin-bottom: 10px;
+}
+
+.bx--select-input {
+	text-align: center;
+	background-color: transparent;
+	border-color: var(--color-cosmetic-blue);
+	font-family: var(---font-cosmetic);
+	margin-bottom: 20px;
+
+}
+.bx--select-input--xl {
+	font-size: 30px;
+	height: 130px;
+	letter-spacing: 7px;
+	max-height: 130px;
+}
+
+.bx--modal-footer{
+	display: none;
+}
+
+.modal-time{
+	color:  var(--color-label);
+	display: inline-flex;
+	padding: 0px;
+	text-align: center;
+	border-color: var(--color-cosmetic-blue);
+}
+
+.modal-time .bx--form-item{
+	margin-left: 15px;
+	margin-top: 20px;
+}
+
+.modal-time .bx--text-input:disabled {
+	letter-spacing: 3px;
+	-webkit-text-fill-color:var(--color-label);
+	color:  var(--color-label);
+}
+
+.bx--text-input{
+	letter-spacing: 3px;
+}
+.modal-time .bx--text-input{
+	letter-spacing: 7px;
+	-webkit-text-fill-color:var(--color-label);
+}
+
+.modal-box{
+	letter-spacing: 3px;
+}
+
+.modal-box .bx--select__arrow {
+	height: 68%;
+}
+.modal-box .bx--label {
+
+		font-size: 20px;
+		font-family: var(---font-cosmetic);
+	 	color:  var(--color-cosmetic-blue);
+}
+
+.bx--modal-close{
+	display: none;
+}
+
+.bx--modal-header{
+	padding: 0px;
+	padding: 10px;
+	border-bottom: 3px solid var(--color-label);
+	text-align: center;
+}
+
+.bx--modal-header h3 {
+	letter-spacing: 10px;
+	font-family: var(---font-cosmetic);
+}
+
+
+
+.tile-block {
+	background-color: white;
+	color: black;
+	margin-bottom: 0px;
+	text-align: center;
+}
+
+.tile-wraper {
+	margin-bottom: 20px;
+}
+.tile-wraper .bx--form-item{
+	margin-top: 30px;
+}
+
+.tile-wraper-image {
+	margin: auto;
+	margin-bottom: 20px;
+	/*max-width: 500px;*/
+}
+
+.image-wraper {
+	border: 5px solid white;
+
+}
+
+.clock {
+	color: #17D4FE;
+	font-size: 25px;
+	font-family: Orbitron;
+	letter-spacing: 7px;
+	text-align: center;
+	border: 1px solid #17D4FE;
+	padding: 10px;
+	margin-bottom: 20px;
+}
+
+.logo-wraper {
+	margin-top: 150px;
+}
+
+.data-member {
+	margin-top: 10px;
+	padding: 10px;
+	width: 100%;
+	letter-spacing: 3px;
+
+	background-color: #525252;
+	font-family: var(---font-cosmetic);
+	color: var(--color-cosmetic-blue);
+	text-align: center;
+}
+
+.data-vehicle{
+	border-top: 1px solid var(--color-label);
+	padding: 10px;
+	margin-top: 20px;
+	padding-top: 20px;
+	width: 100%;
+	letter-spacing: 3px;
+	font-family: var(---font-cosmetic);
+	color: var(--color-cosmetic-blue);
+	text-align: center;
+}
+
+#modal-year{
+	width:120px;
+}
+
+
+.bx--btn--tertiary{
+	font-family: var(---font-cosmetic);
+	color:  var(--color-cosmetic-blue);
+	letter-spacing: 3px;
+	width: 100%;
+	text-align: center;
+	padding: 0px;
+	display: block;
+	margin-top: 20px;
+	border-color: var(--color-cosmetic-blue);
+}

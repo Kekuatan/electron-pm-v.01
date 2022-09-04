@@ -72,7 +72,7 @@ export const basicAuth = async () => {
 
 }
 
-export const Camera =  async (imageName) => {
+export const Camera =  async (imageName, blob = false) => {
     console.log('camera runing')
     let result = null;
     const cam = cameraApi()
@@ -86,9 +86,15 @@ export const Camera =  async (imageName) => {
                     })
                     console.log('camera bb', blob)
                     console.log('camera bb', result)
-                    resolve()
+
+                    if(!blob){
+                        resolve()
+                    } else {
+                        return URL.createObjectURL(blob);
+                    }
                 }).then((src) => {
-                // result = src
+                    console.log('src',src)
+                 result = src
                 console.log('camera aaa', src)
                 resolve()
             }).catch((e) => {

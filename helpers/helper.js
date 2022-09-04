@@ -13,7 +13,6 @@ export const blank = function (e) {
 }
 
 export const isError = function (results, prop) {
-
     if (blank(results)) {
         return {valid: false, message:''}
     }
@@ -28,7 +27,12 @@ export const isError = function (results, prop) {
         console.log(results['errors'][prop])
         return {valid: true, message:results['errors'][prop]}
     }
+}
 
+export const barcodeNumber = function barcodeNumber() {
+    let d = new Date();
+    return ("0" + d.getDate()).slice(-2) + "" + ("0" + (d.getMonth() + 1)).slice(-2) + "" +
+        d.getFullYear() + "" + ("0" + d.getHours()).slice(-2) + "" + ("0" + d.getMinutes()).slice(-2) + ("0" + d.getSeconds()).slice(-2)
 }
 
 export const Base64 = {

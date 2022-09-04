@@ -1,7 +1,12 @@
 const {SerialPort, ReadlineParser} = require("serialport");
-
-
 const path = require("path");
+const {ipcRenderer} = require("electron");
+const fs = require("fs");
+const Axios = require('axios');
+const FormData = require('form-data');
+const  {Print}= require('./PrintService')
+
+// const {Base64} = require("../helpers/helper");
 
 class Gate {
 
@@ -16,8 +21,12 @@ class Gate {
             stopBits: 1,
             rtscts: false
         }
+        this.ipcMain = null;
+        this.sensorIn = false;
+        this.sensorOut = false;
         this.serialPort = new SerialPort(this.option);
-
+        this.access_token = false
+        this.printTicket = 'asem;'
         this.open = () => {
             return new Promise((resolve, reject) => {
                 this.serialPort.write('TRIG1#');
@@ -32,8 +41,41 @@ class Gate {
         }
 
         this.readSerialData = (data) => {
-            console.log(data);
-            return;
+            console.log('aaaa')
+            console.log(this.printTicket)
+            Print.ticket(this.ipcMain)
+            let str = data.toString()
+            if (str === '*IN1ON#') {
+
+                if (this.sensorIn && this.sensorOut) {
+                    console.log('button')
+                    this.sensorIn = false
+                    this.sensorOut = false
+                } else {
+                    let responseData = [];
+                    if (!this.sensorIn) {
+
+
+                    }
+                    if (!this.sensorOut) {
+                        const base_url = process.env.BASE_URL;
+                        console.log(base_url)
+                        console.log('button, sensor keluar belum terinjak')
+                    }
+                }
+
+            } else if (str === '*IN3OFF#') {
+                this.sensorOut = true
+                console.log('sensor kendaraan  keluar')
+            } else if (str === '*IN2OFF#') {
+                this.sensorOut = true
+                console.log('sensor kendaraan masuk ')
+            } else {
+                console.log(data.toString());
+                console.log(data);
+            }
+
+            // return;
         }
 
         this.showPortClose = () => {
@@ -49,9 +91,40 @@ class Gate {
         this.serialPort.pipe(parser);
 
         this.serialPort.on('open', this.showPortOpen);
-        parser.on('data', this.readSerialData);
+        this.serialPort.on('data', this.readSerialData);
         this.serialPort.on('close', this.showPortClose);
         this.serialPort.on('error', this.showError);
+
+        // this.axios = (url, type, payload, query) => {
+        //     let form = new FormData();
+        //     console.log(payload)
+        //     for (var k in payload) {
+        //         if (payload.hasOwnProperty(k)) {
+        //             if (k === 'picture_vehicle_in') {
+        //                 payload[k] = path.join(__dirname, '../../..' + payload[k])
+        //                 form.append(k, fs.createReadStream(payload[k]));
+        //             } else {
+        //                 form.append(k, payload[k]);
+        //             }
+        //
+        //
+        //         }
+        //     }
+        //     // const file =  fs.readFile(pathName);
+        //     console.log('b')
+        //     // form.append('file', file, 'my-image.jpg')
+        //
+        //     let key = this.token
+        //     if (type.toLowerCase() === 'post') {
+        //         return Axios.post(url, form, {
+        //             headers: {
+        //                 'Accept': 'application/json',
+        //                 'Authorization': "Bearer " + key,
+        //                 'Content-Type': `multipart/form-data`,
+        //             }
+        //         })
+        //     }
+        // }
     }
 
 

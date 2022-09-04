@@ -65,24 +65,28 @@
         // })();
 
         state = 'active';
-        results = doGet('/api/vehicles').then(function (response) {
-                console.log(response)
-                $vehicles = response;
-                console.log($vehicles)
-            basicAuth()
-                .then(function (response) {
-                    console.log(response, SetUser('home',response))
-                    response['auth'] = true
-                    $user = SetUser('home',response)
-                    params =  user
-                    page = Route('home',$user)
-                    state = 'finished';
-                }).catch((e)=>{
-                state = 'finished';
-                results = e
-                state = 'dormant';
-            })
-            })
+        doGet('/api/myapi','','')
+            .then(function(response){
+            console.log('ssss', response)
+        })
+        // results = doGet('/api/vehicles').then(function (response) {
+        //         console.log(response)
+        //         $vehicles = response;
+        //         console.log($vehicles)
+        //     basicAuth()
+        //         .then(function (response) {
+        //             console.log(response, SetUser('home',response))
+        //             response['auth'] = true
+        //             $user = SetUser('home',response)
+        //             params =  user
+        //             page = Route('home',$user)
+        //             state = 'finished';
+        //         }).catch((e)=>{
+        //         state = 'finished';
+        //         results = e
+        //         state = 'dormant';
+        //     })
+        //     })
     }
 
     handleSubmit()

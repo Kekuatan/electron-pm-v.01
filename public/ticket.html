@@ -10,63 +10,13 @@
 <body>
 <div class="ticket">
     <p class="centered title">PARK AND RIDE KALIMALANG</p>
-    <p class="centered">
-        <span id="vehicle"> - </span> :
-        <span id="plat_no"> - </span> |
-        <span id="bypass_type"> - </span></p>
-    <table>
-        <thead>
-
-        </thead>
-        <tbody>
-        <tr>
-            <td class="description pt-2">Masuk</td>
-            <td class="price pt-2">:
-                <span id="start_at"> - </span>
-            </td>
-        </tr>
-        <tr>
-
-            <td class="description">Keluar</td>
-            <td class="price">:
-                <span id="end_at">  </span>
-            </td>
-        </tr>
-        <tr>
-
-            <td class="description"> Petugas</td>
-            <td class="price">:
-                <span id="staff_name"> - </span>
-            </td>
-        </tr>
-        <tr>
-
-            <td class="description">Lama</td>
-            <td class="price">:
-                <span id="duration"> - </span>
-            </td>
-        </tr>
-        <tr>
-
-            <td class="description">Parkir</td>
-            <td class="price">: Rp.
-                <span id="price"> 0 </span>
-            </td>
-        </tr>
-        <tr>
-
-            <td class="description pb-2">Denda</td>
-            <td class="price pb-2"> : Rp.
-                <span id="price_penalty"> 0 </span>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2" class="price total">TOTAL : Rp.
-                <span id="total_price"> 0 </span>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <p class="centered">Jl kramat benda xi RT.002 Rw.027</p>
+    <p class="centered">Depok</p>
+    <br>
+    <p class="centered" id="start_at"> - </p>
+    <img id="barcode_data_image" src="">
+    <p id="barcode_no"></p>
+    <br>
     <p class="centered">Thanks for your purchase!
         <br>parzibyte.me/blog</p>
     <br>
@@ -87,7 +37,14 @@
     if (data.length >= 1) {
 
         data.forEach((d) => {
-            document.getElementById(d).innerHTML = contentData[d]
+            console.log(document.getElementById(d))
+            if (document.getElementById(d) != null){
+                if(d ==='barcode_data_image'){
+                    document.getElementById(d).src = contentData[d]
+                } else {
+                    document.getElementById(d).innerHTML = contentData[d]
+                }
+            }
         })
     }
 
@@ -116,8 +73,28 @@
     }
 
     .title {
-        font-size: 16px;
+        font-size: 14px;
+        font-weight: bold;
     }
+
+    #barcode_no{
+        text-align: center;
+        font-size: 14px;
+        letter-spacing: 2px;
+    }
+
+    #barcode_data_image{
+        margin-left: 50%;
+        transform: translate(-50%, 0px);
+        width: 100px;
+        text-align: center;
+        align-items: center;
+    }
+    #start_at{
+        font-size: 14px;
+        letter-spacing: 2px;
+    }
+
 
     td,
     th,

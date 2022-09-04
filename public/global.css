@@ -213,6 +213,7 @@
 	color:  var(--color-cosmetic-blue);
 	letter-spacing: 3px;
 	width: 100%;
+	max-width: inherit;
 	text-align: center;
 	padding: 0px;
 	display: block;

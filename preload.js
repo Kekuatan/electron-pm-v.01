@@ -1,8 +1,7 @@
 const {contextBridge, ipcRenderer} = require("electron");
 const path = require("path");
 const {exec} = require("child_process");
-const {Gate} = require('./services/SerialportService')
-
+// const {Gate} = require('./services/SerialportService')
 // const port = new SerialPort('COM3',
 //     {
 //         // echo: true,
@@ -33,7 +32,7 @@ const {Gate} = require('./services/SerialportService')
 //     // }
 //
 // })
-
+console.log('load preload')
 
 contextBridge.exposeInMainWorld(
     "api", {
@@ -46,12 +45,19 @@ contextBridge.exposeInMainWorld(
             })
 
         },
-        openGate: async (payload) => {
-            console.log(payload)
-            await Gate.open();
-        },
+        // openGate: async (payload) => {
+        //     console.log(payload)
+        //     await Gate.open();
+        // },
         printStruck:async (payload) => {
             return await ipcRenderer.invoke('printStruck', payload)
+                .then((result) => {
+                    console.log(payload,result)
+                    return result
+                })
+        },
+        printTicket:async (payload) => {
+            return await ipcRenderer.invoke('printTicket', payload)
                 .then((result) => {
                     console.log(payload,result)
                     return result

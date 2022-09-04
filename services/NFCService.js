@@ -5,14 +5,16 @@
 const {NFC} = require('nfc-pcsc');
 const path = require("path");
 const nfc = new NFC(); // optionally you can pass logger
-
+const  {Print}= require('./PrintService')
 
 class NFCService {
     constructor() {
         this.nfc = nfc
         this.card = null
+        this.ipcMain = null
         this.nfc.on('reader', reader => {
             console.log(`${reader.reader.name}  device attached`);
+
 
             // enable when you want to auto-process ISO 14443-4 tags (standard=TAG_ISO_14443_4)
             // when an ISO 14443-4 is detected, SELECT FILE command with the AID is issued
@@ -34,6 +36,8 @@ class NFCService {
 
             reader.on('card', card => {
                 this.card = card
+                console.log(this.ipcMain)
+                Print.ticket(this.ipcMain, card.uid)
                 console.log(`${reader.reader.name}  card detected`, card);
             });
             reader.on('card.off', card => {

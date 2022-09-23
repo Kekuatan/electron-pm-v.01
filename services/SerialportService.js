@@ -4,12 +4,11 @@ const {ipcRenderer} = require("electron");
 const fs = require("fs");
 const Axios = require('axios');
 const FormData = require('form-data');
-const  {Print}= require('./PrintService')
+const {Print} = require('./PrintService')
 
 // const {Base64} = require("../helpers/helper");
 
 class Gate {
-
     constructor() {
         this.option = {
             path: 'COM4',
@@ -43,24 +42,28 @@ class Gate {
         this.readSerialData = (data) => {
             console.log('aaaa')
             console.log(this.printTicket)
-            Print.ticket(this.ipcMain)
+            // Print.ticket(this.ipcMain)
             let str = data.toString()
             if (str === '*IN1ON#') {
-
                 if (this.sensorIn && this.sensorOut) {
                     console.log('button')
                     this.sensorIn = false
                     this.sensorOut = false
                 } else {
                     let responseData = [];
-                    if (!this.sensorIn) {
-
-
+                    if (!this.sensorIn && !this.sensorIn) {
+                        console.log('button, sensor keluar dan masuk belum terinjak')
                     }
-                    if (!this.sensorOut) {
+                    if (!this.sensorIn) {
+                        const base_url = process.env.BASE_URL;
+                        console.log(base_url)
+                        console.log('button, sensor masuk belum terinjak')
+                    } else if (!this.sensorOut) {
                         const base_url = process.env.BASE_URL;
                         console.log(base_url)
                         console.log('button, sensor keluar belum terinjak')
+                    } else{
+                        Print.ticket(this.ipcMain)
                     }
                 }
 

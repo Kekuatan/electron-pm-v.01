@@ -324,7 +324,7 @@
             state = 'dormant'
         } else if (arg === 'printTicket'){
             console.log (barcodeNumber())
-            await window.api.printTicket({'barcode_number' : barcodeNumber()})
+            await window.api.printTicket({'barcode_no' : barcodeNumber()})
         }
 
 

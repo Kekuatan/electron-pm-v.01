@@ -1,12 +1,10 @@
-const {app, BrowserWindow, ipcMain} = require("electron");
+const {app, BrowserWindow, ipcMain, ipcRenderer} = require("electron");
 const {NFCService} = require("./services/NFCService")
-const { ipcRenderer } = require('electron')
 const {TicketDataService} = require("./services/TicketDataService")
 const {Print} = require("./services/PrintService")
 const {Gate} = require('./services/SerialportService')
 const ip = require("ip");
-const dbConfig = require('./models/dbconfig')
-const userModel = require('./models/users')
+const path = require("path");
 
 console.dir ( ip.address() );
 
@@ -17,37 +15,30 @@ try {
 } catch (_) {
 }
 
-let a = async() =>{
-    await userModel.insertMany([
-        { id: 'Joey', name: 2, password : 'test', email :'test' },
-        { id: 'd', name: 2, password : 'test', email :'test' },
-        { id: 'e', name: 2, password : 'test', email :'test' },
-    ]);
-}
-a()
-
-const path = require("path");
 
 app.on("ready", () => {
+    console.log('ready')
     const mainWindow = new BrowserWindow({
         webPreferences: {
-
             preload: path.join(process.cwd(), 'preload.js')
         },
         width: 1360,
         height: 768,
-        frame: false
+        frame: true
     });
 
     const printWindow = new BrowserWindow({
         webPreferences: {
-
             preload: path.join(process.cwd(), 'preload.js')
         },
         width: 1360,
         height: 768,
-        frame: false
+        frame: true
     });
+
+    Print.ipcMain = ipcMain;
+    Gate.ipcMain = ipcMain;
+    NFCService.ipcMain = ipcMain;
 
     mainWindow.loadFile(path.join(__dirname, "public/index.html"));
     mainWindow.webContents.openDevTools();
@@ -64,11 +55,6 @@ app.on("ready", () => {
             return new Promise((resolve, reject) => {
                 console.log(payload)
                 resolve()
-                // Close and set current active window
-                // ipcMain.emit('renew-active-win', 'HomeWindow', {
-                //     'user.name' :  Store.get('user').name??null,
-                //     'user.shift' :  Store.get('user').description??null,
-                // })
             })
         }
 
@@ -84,7 +70,6 @@ app.on("ready", () => {
                 resolve()
             })
         }
-
         await login()
         if (NFCService.card == null) {
             console.log('expose to main word', null)
@@ -106,6 +91,7 @@ app.on("ready", () => {
         let html = path.join(process.cwd(), 'public', 'ticket.html')
         payload['barcode_data_image'] = await Print.getBarcodeDataImage(payload);
         payload['start_at'] = new Date().toLocaleString(['id'], {day:'2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute:'2-digit', second:'2-digit'} ) + " PM-1"
+        console.log(payload)
         await Print.struck(printWindow, html, payload)
         return payload
     })
@@ -117,10 +103,6 @@ app.on("ready", () => {
         await Print.struck(printWindow, html, payload)
         return payload
     })
-
-    Print.ipcMain = ipcMain;
-    Gate.ipcMain = ipcMain;
-    NFCService.ipcMain = ipcMain;
 });
 
 

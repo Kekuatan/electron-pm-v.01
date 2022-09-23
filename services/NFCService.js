@@ -3,7 +3,6 @@
 
 // without Babel in ES2015
 const {NFC} = require('nfc-pcsc');
-const path = require("path");
 const nfc = new NFC(); // optionally you can pass logger
 const  {Print}= require('./PrintService')
 
@@ -12,6 +11,7 @@ class NFCService {
         this.nfc = nfc
         this.card = null
         this.ipcMain = null
+
         this.nfc.on('reader', reader => {
             console.log(`${reader.reader.name}  device attached`);
 

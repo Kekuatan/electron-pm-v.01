@@ -1,12 +1,14 @@
-
 <script>
     import {user, vehicles} from "../stores";
     import {doGet, doPost, basicAuth} from "../../services/api";
     import {Route, SetUser} from "../routes.js";
     import {blank} from '../../helpers/helper'
     import * as alertify from 'alertifyjs'
-
+    import {TextInput} from "carbon-components-svelte";
+    import {Button, ButtonSet, InlineLoading} from "carbon-components-svelte";
+    import Login from "carbon-icons-svelte/lib/Login.svelte";
     import Home from "./Home.svelte";
+
     export let page;
     export let params;
     export let isLoading;
@@ -15,9 +17,8 @@
     let password = 'admin';
     let results;
     let invalidInput = false;
-    import { TextInput } from "carbon-components-svelte";
-    import { Button, ButtonSet, InlineLoading } from "carbon-components-svelte";
-    import Login  from "carbon-icons-svelte/lib/Login.svelte";
+
+
     const descriptionMap = {
         active: "Submitting...",
         finished: "Success",
@@ -29,8 +30,7 @@
         inactive: "dormant",
         finished: "dormant",
     };
-    //v16.13.2
-    //8.14.0
+
     let state = "dormant";
 
 
@@ -56,7 +56,7 @@
     //
     // $: setupPoller(1);
     // handleSubmit()
-    function  handleSubmit() {
+    function handleSubmit() {
         // (async () => {
         //     const response = await window.api.getMemberCardUid('post_data')
         //     console.log('-----dari login-------')
@@ -65,10 +65,11 @@
         // })();
 
         state = 'active';
-        doGet('/api/myapi','','')
-            .then(function(response){
-            console.log('ssss', response)
-        })
+        console.log('aaa');
+        doGet('/api/myapi', '', '')
+            .then(function (response) {
+                console.log('ssss', response)
+            })
         // results = doGet('/api/vehicles').then(function (response) {
         //         console.log(response)
         //         $vehicles = response;
@@ -89,25 +90,28 @@
         //     })
     }
 
+    console.log('aa');
+    page = Route('home', {auth: true})
     handleSubmit()
 
 </script>
 
 <div class="login-form">
 
-<!--    <Loading-->
-<!--            description="Active loading indicator" withOverlay={false}-->
-<!--    />-->
+    <!--    <Loading-->
+    <!--            description="Active loading indicator" withOverlay={false}-->
+    <!--    />-->
 </div>
 
 
 <style>
 
-    h1{
+    h1 {
         margin-bottom: 20px;
         text-align: left;
     }
-    .login-form{
+
+    .login-form {
         padding: 20px;
         position: absolute;
         top: 50%;
@@ -117,8 +121,8 @@
         /*background-color: green;*/
     }
 
-    .submit-btn{
-     text-align: end;
+    .submit-btn {
+        text-align: end;
         /*text-align: center;*/
         margin: 20px 0px;
         /*position: absolute;*/

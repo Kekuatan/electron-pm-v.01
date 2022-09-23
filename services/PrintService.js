@@ -5,6 +5,15 @@ const fs = require("fs");
 const Axios = require("axios");
 const {ipcRenderer} = require("electron");
 
+const env = {
+    base_url : 'http://parkir-server.test',
+    client_id : '9658726c-164a-42ec-ac5f-f34d8ebc81e3',
+    client_secret : 'SZbiLA6T8F9Wf3NrAp1uJNHuYi2aihPLFPiDa64r',
+    camera_url : 'http://192.168.110.51//ISAPI/Streaming/channels/1/picture',
+    camera_username : 'admin',
+    camera_password : 'ADMIN123',
+}
+
 class Print {
     constructor() {
         this.option = {
@@ -90,12 +99,12 @@ class Print {
         }
 
         this.ticket = async (ipcMain, memberCardNo = null) => {
-            const url = 'http://parkir-server.test/oauth/token';
-            const clientId = '9658726c-164a-42ec-ac5f-f34d8ebc81e3'
-            const clientSecret = 'SZbiLA6T8F9Wf3NrAp1uJNHuYi2aihPLFPiDa64r'
+            const url = env.base_url + '/oauth/token';
+            const clientId = env.client_id
+            const clientSecret = env.client_secret
             const payload = {'grant_type': 'client_credentials'}
             let img = null
-            const camera_url = 'http://192.168.110.51//ISAPI/Streaming/channels/1/picture'
+            const camera_url = env.camera_url
             let key = Buffer.from(clientId + ':' + clientSecret).toString('base64')
             let payloadForm = new FormData();
             if(memberCardNo){
@@ -142,6 +151,7 @@ class Print {
 
             const camera = () => {
                 console.log('// Camera cctv')
+                let key = Buffer.from(env.camera_username + ':' + env.camera_password).toString('base64')
                 return new Promise(async (resolve, reject) => {
                     let form = new FormData();
                     for (var k in payload) {
@@ -162,9 +172,9 @@ class Print {
                         headers: {
                             'Content-Type': 'multipart/form-data',
                             'Accept': 'application/json',
-                            'Authorization': 'Basic ' + 'YWRtaW46QURNSU4xMjM=',
-                            'username': 'admin',
-                            'password': 'ADMIN123'
+                            'Authorization': 'Basic ' + key,
+                            'username': env.camera_username,
+                            'password': env.camera_password
                         },
                     }).then((response) => {
                         console.log('image ok')
@@ -180,7 +190,7 @@ class Print {
 
             const requestTicket = () => {
                 return new Promise(async (resolve, reject) => {
-                    Axios.post('http://parkir-server.test/api/ticket/in', payloadForm, {
+                    Axios.post(env.base_url + '/api/ticket/in', payloadForm, {
                         headers: {
                             'Accept': 'application/json',
                             'Authorization': "Bearer " + this.access_token,

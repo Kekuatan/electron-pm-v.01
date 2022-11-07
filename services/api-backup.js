@@ -1,6 +1,5 @@
 import {blank, Base64} from '../helpers/helper'
 import * as alertify from 'alertifyjs'
-import error from "svelte/types/compiler/utils/error";
 
 const access_token = process.env.ACCESS_TOKEN;
 const base_url = process.env.BASE_URL;
@@ -19,12 +18,7 @@ export const doPost = async (url, payload, token) => {
 }
 
 export const doGet = async (url, payload, token) => {
-    try {
-        return get(url, payload, token)
-    } catch (e) {
-        console.log(e)
-    }
-
+    return get(url, payload, token)
 }
 
 export const doPostWithFormData = async (url, payload, token) => {
@@ -186,11 +180,11 @@ const post = async (url, payload, token) => {
 }
 
 const get = async (url, payload, token) => {
-    console.log('fetch')
     const request = await fetch(base_url + url, {
         method: 'GET',
         headers: headers
     })
+
     const response = await request
     return responseHandling(response)
 }

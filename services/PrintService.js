@@ -4,6 +4,8 @@ const FormData = require("form-data");
 const fs = require("fs");
 const Axios = require("axios");
 const {ipcRenderer} = require("electron");
+const modelParameters = require("../models/parameters");
+const {Camera} = require("./CameraService")
 
 const env = {
     base_url : 'http://parkir-server.test',
@@ -44,6 +46,16 @@ class Print {
             textxalign: 'center',        // Always good to set this
         }
 
+        this.init = () =>{
+            this.access_token = modelParameters.select('access_token')['value']
+            this.base_url = modelParameters.select('base_url')['value']
+            this.camera_url  = modelParameters.select('camera_url')['value']
+            this.camera_username = modelParameters.select('camera_username')['value']
+            this.camera_password= modelParameters.select('camera_password')['value']
+            this.area_position= modelParameters.select('area_position')['value']
+            this.camera_auth = 'Basic ' + Buffer.from(this.camera_username + ':' + this.camera_password).toString('base64')
+        }
+
         this.struck =  (printWindow, html, content) => {
             const options = this.option
             return new Promise((resolve, reject) => {
@@ -81,7 +93,7 @@ class Print {
                 return new Promise((resolve, reject) => {
                     bwipjs.toBuffer(this.barcodeConfig, (err, png) => {
                         if (err) {
-                            console.log('Print Ticket failled');
+                            console.log('Print Ticket failled', content, this.barcodeConfig);
                             console.log(err);
                         } else {
                             let gifBase64 = `data:image/png;base64,${png.toString('base64')}`
@@ -98,7 +110,38 @@ class Print {
             return imageData;
         }
 
+        this.requestTicket = (payloadForm) => {
+            return new Promise(async (resolve, reject) => {
+                Axios.post(this.base_url + '/api/ticket/in', payloadForm, {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': "Bearer " + this.access_token,
+                        'Content-Type': `multipart/form-data`,
+                    }
+                }).then((response) => {
+                    console.log('api ok')
+                    if (response.status === 200) {
+                        console.log(response.data)
+                        resolve(response.data)
+                    }
+                }).catch(function (error) {
+                    if (error.response) {
+                        // Request made and server responded
+                        console.log(error.response.data);
+                    } else if (error.request) {
+                        // The request was made but no response was received
+                        console.log(error.request);
+                    } else {
+                        // Something happened in setting up the request that triggered an Error
+                        console.log('Error', error.message);
+                    }
+                    resolve(false)
+                });
+            })
+        }
+
         this.ticket = async (ipcMain, memberCardNo = null) => {
+<<<<<<< Updated upstream
             const url = env.base_url + '/oauth/token';
             const clientId = env.client_id
             const clientSecret = env.client_secret
@@ -106,11 +149,19 @@ class Print {
             let img = null
             const camera_url = env.camera_url
             let key = Buffer.from(clientId + ':' + clientSecret).toString('base64')
+=======
+            await this.init()
+            let responseApi = null;
+            let image = await Camera.config().takeImage()
+>>>>>>> Stashed changes
             let payloadForm = new FormData();
+            payloadForm.append('area_position_in_id', this.area_position);
+
             if(memberCardNo){
                 payloadForm.append('member_card_no',memberCardNo)
             }
 
+<<<<<<< Updated upstream
             let responseApi = null;
             console.log(key)
 
@@ -217,12 +268,15 @@ class Print {
 
                     });
                 })
+=======
+            if(image){
+                payloadForm.append('picture_vehicle_in',image, 'test.jpeg');
+>>>>>>> Stashed changes
             }
 
-            await login()
             if(this.access_token){
-                await camera()
-                await requestTicket()
+                // await camera()
+                responseApi = await this.requestTicket(payloadForm)
             } else {
 
             }

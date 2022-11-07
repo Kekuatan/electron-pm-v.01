@@ -1,8 +1,8 @@
 <script>
     import {user, vehicles} from "../stores";
-    import {doGet, doPost, basicAuth} from "../../services/api";
+    import {doGet, doPost, basicAuth, Camera} from "../../services/Api";
     import {Route, SetUser} from "../routes.js";
-    import {blank} from '../../helpers/helper'
+    import {barcodeNumber, blank} from '../../helpers/helper'
     import * as alertify from 'alertifyjs'
     import {TextInput} from "carbon-components-svelte";
     import {Button, ButtonSet, InlineLoading} from "carbon-components-svelte";
@@ -30,6 +30,11 @@
         inactive: "dormant",
         finished: "dormant",
     };
+<<<<<<< Updated upstream
+=======
+    //v16.13.2
+    //8.14.0
+>>>>>>> Stashed changes
 
     let state = "dormant";
 
@@ -65,6 +70,7 @@
         // })();
 
         state = 'active';
+<<<<<<< Updated upstream
         console.log('aaa');
         doGet('/api/myapi', '', '')
             .then(function (response) {
@@ -88,19 +94,63 @@
         //         state = 'dormant';
         //     })
         //     })
+=======
+        doGet('/api/myapi','','')
+            .then(function(response){
+            console.log('ssss', response)
+        })
+        basicAuth()
+            .then(function (response) {
+                console.log(response, SetUser('home',response))
+                response['auth'] = true
+                $user = SetUser('home',response)
+                params =  user
+                page = Route('home',$user)
+                state = 'finished';
+            }).catch((e)=>{
+                console.log('error'. e)
+            state = 'finished';
+            results = e
+            state = 'dormant';
+        })
+>>>>>>> Stashed changes
     }
+    async function handleClick() {
 
+
+            let response= await window.api.loginBasic()
+            response['auth'] = true
+            $user = SetUser('home',response)
+            params =  user
+        page = Route('home',$user)
+        state = 'finished';
+        state = 'dormant';
+
+<<<<<<< Updated upstream
     console.log('aa');
     page = Route('home', {auth: true})
     handleSubmit()
+=======
+>>>>>>> Stashed changes
 
+    }
+
+    // handleClick()
+    // handleSubmit()
 </script>
 
 <div class="login-form">
 
+<<<<<<< Updated upstream
     <!--    <Loading-->
     <!--            description="Active loading indicator" withOverlay={false}-->
     <!--    />-->
+=======
+<!--    <Loading-->
+<!--            description="Active loading indicator" withOverlay={false}-->
+<!--    />-->
+    <button on:click|preventDefault={() => handleClick('captureImage')}> aaaa </button>
+>>>>>>> Stashed changes
 </div>
 
 

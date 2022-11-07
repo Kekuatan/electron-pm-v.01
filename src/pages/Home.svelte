@@ -1,6 +1,6 @@
 <script>
     import {user, vehicles} from "../stores";
-    import {Camera, doPostWithFormData} from "../../services/api";
+    import {Camera, doPostWithFormData} from "../../services/Api";
     import {
         Column,
         Grid,
@@ -318,12 +318,18 @@
             console.log('ok')
             state = 'active';
             results = {'ticket': {}}
-            img = await Camera('test', true)
+            img = await window.api.getParameter('token')
             results['ticket']['vehicle_in_url'] = img
             console.log('img', img)
+            console.log('test', img)
             state = 'dormant'
         } else if (arg === 'printTicket'){
             console.log (barcodeNumber())
+<<<<<<< Updated upstream
+=======
+            let a = await window.api.getParameter('token')
+            console.log('sadfasfsaf', a) 
+>>>>>>> Stashed changes
             await window.api.printTicket({'barcode_no' : barcodeNumber()})
         }
 

@@ -172,7 +172,7 @@ function barcode(dataImage){
 
 function barcodeText(barcodeCode){
     return {
-        name : 'barcode_number',
+        name : 'barcode_no',
         type: "text", // 'text' | 'barCode' | 'qrCode' | 'image' | 'table
         value: barcodeCode,
         style: `text-align:center;`,

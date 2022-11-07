@@ -12,7 +12,7 @@
     // }
     // let amount = ''
     // let customIdentifier = ''
-    import {doPost, doGet} from "../services/api";
+    import {doPost, doGet} from "../services/Api";
     // // console.log(process.env.NODE_ENV)
     // // console.log(access_token)
     // console.log(process.env.ACCESS_TOKEN)

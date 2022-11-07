@@ -49,6 +49,14 @@ contextBridge.exposeInMainWorld(
         //     console.log(payload)
         //     await Gate.open();
         // },
+        loginBasic:async (payload) => {
+            // port.write('TRIG1#');
+            return await ipcRenderer.invoke('loginBasic', payload)
+                .then((result) => {
+                    console.log(payload,result)
+                    return result
+                })
+        },
         printStruck:async (payload) => {
             return await ipcRenderer.invoke('printStruck', payload)
                 .then((result) => {
@@ -60,6 +68,15 @@ contextBridge.exposeInMainWorld(
             return await ipcRenderer.invoke('printTicket', payload)
                 .then((result) => {
                     console.log(payload,result)
+
+                    return result
+                })
+        },
+        camera :async (payload) => {
+            return await ipcRenderer.invoke('camera', payload)
+                .then((result) => {
+                    console.log(payload,result)
+
                     return result
                 })
         },
@@ -67,6 +84,13 @@ contextBridge.exposeInMainWorld(
             return await ipcRenderer.invoke('getMemberCardUid', payload)
                 .then((result) => {
                     console.log(payload,result)
+                    return result
+                })
+        },
+        getParameter: async (coloum) => {
+            return await ipcRenderer.invoke('getParameter', coloum)
+                .then((result) => {
+                    console.log(coloum,result)
                     return result
                 })
         },

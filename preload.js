@@ -40,57 +40,69 @@ contextBridge.exposeInMainWorld(
             // port.write('TRIG1#');
             return await ipcRenderer.invoke('login', payload)
                 .then((result) => {
-                console.log(payload,result)
-                return result
-            })
+                    console.log(payload, result)
+                    return result
+                })
 
         },
         // openGate: async (payload) => {
         //     console.log(payload)
         //     await Gate.open();
         // },
-        loginBasic:async (payload) => {
+        loginBasic: async (payload) => {
             // port.write('TRIG1#');
             return await ipcRenderer.invoke('loginBasic', payload)
                 .then((result) => {
-                    console.log(payload,result)
+                    // console.log(payload, result)
                     return result
+                }).catch(e => {
+
+                    return []
                 })
+
         },
-        printStruck:async (payload) => {
+        printStruck: async (payload) => {
             return await ipcRenderer.invoke('printStruck', payload)
                 .then((result) => {
-                    console.log(payload,result)
+                    console.log(payload, result)
                     return result
                 })
         },
-        printTicket:async (payload) => {
+        printTicket: async (payload) => {
+            console.log('printTicket')
             return await ipcRenderer.invoke('printTicket', payload)
                 .then((result) => {
-                    console.log(payload,result)
-
+                    // console.log(payload, result)
                     return result
                 })
         },
-        camera :async (payload) => {
-            return await ipcRenderer.invoke('camera', payload)
+        camera: async () => {
+            return await ipcRenderer.invoke('camera')
                 .then((result) => {
-                    console.log(payload,result)
-
+                    console.log('preload ok')
                     return result
                 })
         },
         getMemberCardUid: async (payload) => {
             return await ipcRenderer.invoke('getMemberCardUid', payload)
                 .then((result) => {
-                    console.log(payload,result)
+
+                    console.log(payload, result)
                     return result
                 })
         },
         getParameter: async (coloum) => {
             return await ipcRenderer.invoke('getParameter', coloum)
                 .then((result) => {
-                    console.log(coloum,result)
+                    console.log(coloum, result)
+                    return result
+                })
+        },
+
+        updateParameter: async (coloum, value) => {
+            return await ipcRenderer.invoke('updateParameter', [coloum,value])
+                .then((result) => {
+                    console.log(coloum, result)
                     return result
                 })
         },

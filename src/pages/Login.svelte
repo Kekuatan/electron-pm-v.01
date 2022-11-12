@@ -30,11 +30,9 @@
         inactive: "dormant",
         finished: "dormant",
     };
-<<<<<<< Updated upstream
-=======
+
     //v16.13.2
     //8.14.0
->>>>>>> Stashed changes
 
     let state = "dormant";
 
@@ -70,31 +68,6 @@
         // })();
 
         state = 'active';
-<<<<<<< Updated upstream
-        console.log('aaa');
-        doGet('/api/myapi', '', '')
-            .then(function (response) {
-                console.log('ssss', response)
-            })
-        // results = doGet('/api/vehicles').then(function (response) {
-        //         console.log(response)
-        //         $vehicles = response;
-        //         console.log($vehicles)
-        //     basicAuth()
-        //         .then(function (response) {
-        //             console.log(response, SetUser('home',response))
-        //             response['auth'] = true
-        //             $user = SetUser('home',response)
-        //             params =  user
-        //             page = Route('home',$user)
-        //             state = 'finished';
-        //         }).catch((e)=>{
-        //         state = 'finished';
-        //         results = e
-        //         state = 'dormant';
-        //     })
-        //     })
-=======
         doGet('/api/myapi','','')
             .then(function(response){
             console.log('ssss', response)
@@ -108,16 +81,15 @@
                 page = Route('home',$user)
                 state = 'finished';
             }).catch((e)=>{
-                console.log('error'. e)
+            let response = [];
+            response['auth'] = true
+            $user = SetUser('home',response)
+            params =  user
+            page = Route('home',$user)
             state = 'finished';
-            results = e
-            state = 'dormant';
         })
->>>>>>> Stashed changes
     }
     async function handleClick() {
-
-
             let response= await window.api.loginBasic()
             response['auth'] = true
             $user = SetUser('home',response)
@@ -126,12 +98,6 @@
         state = 'finished';
         state = 'dormant';
 
-<<<<<<< Updated upstream
-    console.log('aa');
-    page = Route('home', {auth: true})
-    handleSubmit()
-=======
->>>>>>> Stashed changes
 
     }
 
@@ -141,16 +107,11 @@
 
 <div class="login-form">
 
-<<<<<<< Updated upstream
-    <!--    <Loading-->
-    <!--            description="Active loading indicator" withOverlay={false}-->
-    <!--    />-->
-=======
+
 <!--    <Loading-->
 <!--            description="Active loading indicator" withOverlay={false}-->
 <!--    />-->
     <button on:click|preventDefault={() => handleClick('captureImage')}> aaaa </button>
->>>>>>> Stashed changes
 </div>
 
 

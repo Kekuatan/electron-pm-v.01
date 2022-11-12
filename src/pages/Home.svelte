@@ -81,16 +81,7 @@
     }
 
     let modalInput = {
-        'bypasser_id': null,
-        'picture_vehicle_out': null,
-        'vehicle_id': 1,
-        'plat_no': 'manual',
-        'hour': 5,
-        'minute': 10,
-        'day': time.getDate(),
-        'month': time.getMonth() + 1,
-        'year': time.getFullYear(),
-        'area_position_out_id': process.env.AREA_POSITION,
+        'base_url': null,
     };
 
     function getStruckData() {
@@ -314,23 +305,51 @@
     }
 
     async function handleClick(arg) {
-        if (arg === 'captureImage') {
-            console.log('ok')
-            state = 'active';
-            results = {'ticket': {}}
-            img = await window.api.getParameter('token')
-            results['ticket']['vehicle_in_url'] = img
-            console.log('img', img)
-            console.log('test', img)
-            state = 'dormant'
-        } else if (arg === 'printTicket'){
-            console.log (barcodeNumber())
-<<<<<<< Updated upstream
-=======
-            let a = await window.api.getParameter('token')
-            console.log('sadfasfsaf', a) 
->>>>>>> Stashed changes
-            await window.api.printTicket({'barcode_no' : barcodeNumber()})
+        switch (arg) {
+            case 'captureImage':
+                console.log('ok')
+                state = 'active';
+                results = {'ticket': {}}
+                img = await window.api.camera()
+                console.log('img', img)
+                console.log('test', img)
+                results['ticket']['vehicle_in_url'] = img
+                console.log('img', img)
+                console.log('test', img)
+                state = 'dormant'
+                break;
+            case 'printTicket':
+                console.log (barcodeNumber())
+                let a = await window.api.getParameter('token')
+                await window.api.printTicket({'barcode_no' : barcodeNumber()})
+                break;
+            case 'modal':
+                let baseUrl = await window.api.getParameter('base_url')
+                let clientId = await window.api.getParameter('client_id')
+                let clientSecret = await window.api.getParameter('client_secret')
+                let cameraUrl = await window.api.getParameter('camera_url')
+                let cameraUsername = await window.api.getParameter('camera_username')
+                let cameraPassword = await window.api.getParameter('camera_password')
+                let areaPosition = await window.api.getParameter('area_position')
+
+                modalInput['base_url'] = baseUrl['value']
+                modalInput['client_id'] = clientId['value']
+                modalInput['client_secret'] = clientSecret['value']
+                modalInput['camera_url'] = cameraUrl['value']
+                modalInput['camera_username'] = cameraUsername['value']
+                modalInput['camera_password'] = cameraPassword['value']
+                modalInput['area_position'] = areaPosition['value']
+                open = !open
+                break;
+            case 'modalClose':
+                open = !open
+                break;
+
+            case 'modalSubmit':
+                let c = await window.api.updateParameter('area_position', 2)
+                console.log(c)
+                open = !open
+                break;
         }
 
 
@@ -347,7 +366,48 @@
 
 </script>
 
+<Modal
+        bind:open
+        modalHeading={modalTitle}
+        selectorPrimaryFocus="#input-plat-no"
+        primaryButtonDisabled={true}
+        hasForm={true}
+        on:click:button--secondary={() => (open = false)}
+        on:open
+        on:close
+        on:submit
+>
+    <br/>
+    <div class="modal-box">
+        <Grid>
+            <Row>
+                <Column>
 
+                    <TextInput bind:value={modalInput['base_url']} labelText="Base url : " id="input-plat-no" size="sm"
+                               placeholder=""/>
+                    <TextInput bind:value={modalInput['client_id']} labelText="Client id : " id="input-plat-no" size="sm"
+                               placeholder=""/>
+                    <TextInput bind:value={modalInput['client_secret']} labelText="Client secret : " id="input-plat-no" size="sm"
+                               placeholder=""/>
+                    <TextInput bind:value={modalInput['camera_url']} labelText="Camera url : " id="input-plat-no" size="sm"
+                               placeholder=""/>
+                    <TextInput bind:value={modalInput['camera_username']} labelText="Camera username : " id="input-plat-no" size="sm"
+                               placeholder=""/>
+                    <TextInput bind:value={modalInput['camera_password']} labelText="Camera password : " id="input-plat-no" size="sm"
+                               placeholder=""/>
+                    <TextInput bind:value={modalInput['area_position']} labelText="Area position : " id="input-plat-no" size="sm"
+                               placeholder=""/>
+
+                    <Button kind="tertiary" on:click={() => handleClick("modalSubmit")}>Save</Button>
+                    <Button kind="tertiary" on:click={() => handleClick("modalClose")}>Close</Button>
+
+                </Column>
+
+            </Row>
+        </Grid>
+    </div>
+
+</Modal>
 <Grid>
     <Row>
 
@@ -419,6 +479,7 @@
                         <p class="clock"> {hours} : {minutes} : {seconds}</p>
                         <Button kind="tertiary" on:click={() => handleClick('captureImage')}>Capture Image</Button>
                         <Button kind="tertiary" on:click={() => handleClick("printTicket")}>Print Ticket</Button>
+                        <Button kind="tertiary" on:click={() => handleClick("modal")}>Setting</Button>
 
                     </div>
                 </Column>

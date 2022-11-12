@@ -1,30 +1,10 @@
 const {app, BrowserWindow, ipcMain, ipcRenderer} = require("electron");
 const {NFCService} = require("./services/NFCService")
-<<<<<<< Updated upstream
-=======
-const {ipcRenderer} = require('electron')
 const modelParameters = require('./models/parameters')
->>>>>>> Stashed changes
 const {TicketDataService} = require("./services/TicketDataService")
 const {Print} = require("./services/PrintService")
 const {Gate} = require('./services/SerialportService')
 const ip = require("ip");
-<<<<<<< Updated upstream
-const path = require("path");
-
-console.dir ( ip.address() );
-
-
-
-try {
-    require('electron-reloader')(module)
-} catch (_) {
-}
-
-
-app.on("ready", () => {
-    console.log('ready')
-=======
 const dbConfig = require('./models/dbconfig')
 const modelUsers = require('./models/users')
 
@@ -91,16 +71,13 @@ ipcMain.handle('loginBasic', async (event) => {
             });
         })
     }
-    let response = await loginBasic()
-
-    return response
+    return await loginBasic()
 })
 
 app.on("ready", () => {
     BrowserWindow.getAllWindows().forEach(window => {
         window.close()
     })
->>>>>>> Stashed changes
     const mainWindow = new BrowserWindow({
         webPreferences: {
             preload: path.join(process.cwd(), 'preload.js')
@@ -157,15 +134,31 @@ app.on("ready", () => {
         return await getParameter(coloum)
     })
 
+    ipcMain.handle('updateParameter', async (event, coloum) => {
+
+        let getParameter = (coloum) => {
+            return new Promise((resolve, reject) => {
+                let payload = modelParameters.update(coloum[0], coloum[1])
+                resolve(payload)
+            })
+        }
+        return await getParameter(coloum)
+    })
+
 
     ipcMain.handle('camera', async (event, coloum) => {
         let image = await Camera.config().takeImage()
         let camera = (image) => {
             return new Promise((resolve, reject) => {
-                resolve(image)
+                image.on('data', data => {
+                    resolve('data:image/png;base64,' + data.toString('base64'))
+                })
+
             })
         }
+        console.log('index ok')
 
+        console.log(image)
         return await camera(image)
     })
 
@@ -199,10 +192,7 @@ app.on("ready", () => {
     ipcMain.handle('printTicket', async (event, payload) => {
         let html = path.join(process.cwd(), 'public', 'ticket.html')
         payload['barcode_data_image'] = await Print.getBarcodeDataImage(payload);
-<<<<<<< Updated upstream
-        payload['start_at'] = new Date().toLocaleString(['id'], {day:'2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute:'2-digit', second:'2-digit'} ) + " PM-1"
-        console.log(payload)
-=======
+
         payload['start_at'] = new Date().toLocaleString(['id'], {
             day: '2-digit',
             month: '2-digit',
@@ -212,7 +202,6 @@ app.on("ready", () => {
             second: '2-digit'
         }) + " PM-1"
         await Print.ticket(printWindow, html, payload)
->>>>>>> Stashed changes
         await Print.struck(printWindow, html, payload)
         return payload
     })

@@ -125,12 +125,13 @@ class Print {
                         resolve(response.data)
                     }
                 }).catch(function (error) {
+                    console.log('api error')
                     if (error.response) {
                         // Request made and server responded
-                        console.log(error.response.data);
+                        console.log('eroor response', error.response.data);
                     } else if (error.request) {
                         // The request was made but no response was received
-                        console.log(error.request);
+                        console.log('eroor request',error.request);
                     } else {
                         // Something happened in setting up the request that triggered an Error
                         console.log('Error', error.message);
@@ -141,19 +142,10 @@ class Print {
         }
 
         this.ticket = async (ipcMain, memberCardNo = null) => {
-<<<<<<< Updated upstream
-            const url = env.base_url + '/oauth/token';
-            const clientId = env.client_id
-            const clientSecret = env.client_secret
-            const payload = {'grant_type': 'client_credentials'}
-            let img = null
-            const camera_url = env.camera_url
-            let key = Buffer.from(clientId + ':' + clientSecret).toString('base64')
-=======
             await this.init()
             let responseApi = null;
             let image = await Camera.config().takeImage()
->>>>>>> Stashed changes
+            console.log('ticket', image)
             let payloadForm = new FormData();
             payloadForm.append('area_position_in_id', this.area_position);
 
@@ -161,126 +153,19 @@ class Print {
                 payloadForm.append('member_card_no',memberCardNo)
             }
 
-<<<<<<< Updated upstream
-            let responseApi = null;
-            console.log(key)
-
-            const login = () => {
-                console.log('// Login to Server')
-                return new Promise(async (resolve, reject) => {
-                    let form = new FormData();
-                    for (var k in payload) {
-                        if (payload.hasOwnProperty(k)) {
-                            if (k === 'picture_vehicle_in') {
-                                payload[k] = path.join(__dirname, '../../..' + payload[k])
-                                console.log(payload[k])
-                                form.append(k, fs.createReadStream(payload[k]));
-                            } else {
-                                form.append(k, payload[k]);
-                            }
-
-                        }
-                    }
-                    Axios.post(url, form, {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Authorization': "Basic " + key,
-                            'Content-Type': `multipart/form-data`,
-                        }
-                    }).then((response) => {
-                        if (response.status === 200) {
-                            this.access_token = response.data.access_token
-                            resolve()
-                        }
-                    }).catch((e)=>{
-                        this.access_token = null
-                        console.log('// Server error')
-                        resolve()
-                    })
-                })
-            }
-
-            const camera = () => {
-                console.log('// Camera cctv')
-                let key = Buffer.from(env.camera_username + ':' + env.camera_password).toString('base64')
-                return new Promise(async (resolve, reject) => {
-                    let form = new FormData();
-                    for (var k in payload) {
-                        if (payload.hasOwnProperty(k)) {
-                            if (k === 'picture_vehicle_in') {
-                                payload[k] = path.join(__dirname, '../../..' + payload[k])
-                                console.log(payload[k])
-                                form.append(k, fs.createReadStream(payload[k]));
-                            } else {
-                                form.append(k, payload[k]);
-                            }
-
-                        }
-                    }
-
-                    Axios.get(camera_url, {
-                        responseType: 'stream',
-                        headers: {
-                            'Content-Type': 'multipart/form-data',
-                            'Accept': 'application/json',
-                            'Authorization': 'Basic ' + key,
-                            'username': env.camera_username,
-                            'password': env.camera_password
-                        },
-                    }).then((response) => {
-                        console.log('image ok')
-                        payloadForm.append('picture_vehicle_in', response.data, 'test.jpeg');
-                        payloadForm.append('area_position_in_id', 1);
-                        resolve()
-                    }).catch((e)=>{
-                        console.log('// CCTV error')
-                        resolve()
-                    })
-                })
-            }
-
-            const requestTicket = () => {
-                return new Promise(async (resolve, reject) => {
-                    Axios.post(env.base_url + '/api/ticket/in', payloadForm, {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Authorization': "Bearer " + this.access_token,
-                            'Content-Type': `multipart/form-data`,
-                        }
-                    }).then((response) => {
-                        console.log('api ok')
-                        if (response.status === 200) {
-                            console.log(response.data)
-                            responseApi = response.data
-                            resolve()
-                        }
-                    }).catch(function (error) {
-                        if (error.response) {
-                            // Request made and server responded
-                            console.log(error.response.data);
-                        } else if (error.request) {
-                            // The request was made but no response was received
-                            console.log(error.request);
-                        } else {
-                            // Something happened in setting up the request that triggered an Error
-                            console.log('Error', error.message);
-                        }
-
-                    });
-                })
-=======
             if(image){
                 payloadForm.append('picture_vehicle_in',image, 'test.jpeg');
->>>>>>> Stashed changes
             }
 
             if(this.access_token){
                 // await camera()
+                console.log('await request ticket')
                 responseApi = await this.requestTicket(payloadForm)
             } else {
 
             }
 
+            console.log('emit print struck', payloadForm)
             await ipcMain.emit('emit-print-struck', null, responseApi)
 
             console.log('button, sensor masuk belum terinjak')
